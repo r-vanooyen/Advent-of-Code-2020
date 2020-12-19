@@ -52,4 +52,31 @@ class ExpenseReportTest {
 
         System.out.print("Result of 01/challengeInput.txt is=" + result[0]);
     }
+
+    @Test
+    void calcProduct_whenGivenTestInputAnd3NumbersInSum_ShouldReturn241861950() throws IOException, URISyntaxException {
+        Long[] numbers = Files.readAllLines(Paths.get(ClassLoader.getSystemResource("01/testInput.txt").toURI()))
+                              .stream()
+                              .map(Long::valueOf)
+                              .collect(Collectors.toList()).toArray(new Long[0]);
+
+        final long result = serviceUnderTest.calcProductOf3Numbers(numbers);
+
+        assertThat(result).isEqualTo(241861950);
+    }
+
+    @Test
+    void calcProduct_whenGivenChallengeInputAnd3NumbersInSum_ShouldOutputResult()
+            throws IOException, URISyntaxException {
+        Long[] numbers = Files.readAllLines(Paths.get(ClassLoader.getSystemResource("01/challengeInput.txt").toURI()))
+                              .stream()
+                              .map(Long::valueOf)
+                              .collect(Collectors.toList()).toArray(new Long[0]);
+
+        final Long[] result = new Long[1];
+        assertThatCode(() -> result[0] = serviceUnderTest.calcProductOf3Numbers(numbers))
+                .doesNotThrowAnyException();
+
+        System.out.print("Result of 01/challengeInput.txt is=" + result[0]);
+    }
 }
