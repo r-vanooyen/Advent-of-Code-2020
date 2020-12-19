@@ -5,4 +5,6 @@ public interface DatabasePasswordChecker {
     long lookupAmountOfValidPasswords(Password... passwords);
 
     long lookupAmountOfValidPasswords(String... dbInputs);
+
+    long lookupAmountOfNewValidPasswords(String... dbInputStream);
 }

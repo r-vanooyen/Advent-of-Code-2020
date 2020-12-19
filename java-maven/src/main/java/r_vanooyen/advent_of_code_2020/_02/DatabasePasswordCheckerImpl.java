@@ -12,7 +12,25 @@ public class DatabasePasswordCheckerImpl implements DatabasePasswordChecker {
 
     public long lookupAmountOfValidPasswords(String... dbInputStream) {
         return Arrays.stream(dbInputStream)
-                     .map(DatabasePasswordEntry::new)
+                     .map(s -> {
+                         final String[] split = s.split(": ");
+                         final DatabasePasswordEntry passwordEntry = new DatabasePasswordEntry(split[1]);
+                         passwordEntry.addPasswordPolicy(new AmountOfContainCharPasswordPolicy(split[0]));
+                         return passwordEntry;
+                     })
+                     .filter(DatabasePasswordEntry::isValid)
+                     .count();
+    }
+
+    @Override
+    public long lookupAmountOfNewValidPasswords(String... dbInputStream) {
+        return Arrays.stream(dbInputStream)
+                     .map(s -> {
+                         final String[] split = s.split(": ");
+                         final DatabasePasswordEntry passwordEntry = new DatabasePasswordEntry(split[1]);
+                         passwordEntry.addPasswordPolicy(new OneCharAtIndexPasswordPolicy(split[0]));
+                         return passwordEntry;
+                     })
                      .filter(DatabasePasswordEntry::isValid)
                      .count();
     }

@@ -8,14 +8,17 @@ public class DatabasePasswordEntry implements Password {
     private final List<PasswordPolicy> policies = new ArrayList<>();
     private final String password;
 
-    public DatabasePasswordEntry(String dbInput) {
-        final int i = dbInput.indexOf(':');
-        password = dbInput.substring(i + 2);
-        policies.add(new AmountOfContainCharPasswordPolicy(dbInput.substring(0, i)));
+    public DatabasePasswordEntry(String password) {
+        this.password = password;
     }
 
     @Override
     public boolean isValid() {
         return policies.stream().allMatch(policy -> policy.isPasswordValid(password));
+    }
+
+    @Override
+    public void addPasswordPolicy(final PasswordPolicy policy) {
+        policies.add(policy);
     }
 }
