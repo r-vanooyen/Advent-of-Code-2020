@@ -12,8 +12,9 @@ public class RoadTripImpl implements RoadTrip {
     @Override
     public Long lookupAmountOfTreesToPass(final int amountStepsRight, final int amountStepsBot) {
         Long treesPassed = 0L;
-        for (int i = 0; i < map.size(); i += amountStepsBot) {
-            if (isTreeOnCoordinates(amountStepsRight * i, i)) {
+        int timesMovedRight = 0;
+        for (int timesMovedBottom = 0; timesMovedBottom < map.size(); timesMovedBottom += amountStepsBot) {
+            if (isTreeOnCoordinates(amountStepsRight * timesMovedRight++, timesMovedBottom)) {
                 treesPassed++;
             }
         }
