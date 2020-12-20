@@ -57,6 +57,26 @@ class PassportDataParserTest {
     }
 
     @Test
+    void parseInput_whenGivenOnlyValidInput_shouldBuild4ValidPassports() throws URISyntaxException, IOException {
+        final List<String> passportData = Files.readAllLines(
+                Paths.get(ClassLoader.getSystemResource("04/someValidPassports.txt").toURI()));
+
+        final Collection<Passport> passports = serviceUnderTest.parseInput(passportData);
+
+        assertThat(passports.stream().filter(Passport::isValid).collect(Collectors.toList())).hasSize(4);
+    }
+
+    @Test
+    void parseInput_whenGivenInvalidInput_shouldBuildNoValidPassports() throws URISyntaxException, IOException {
+        final List<String> passportData = Files.readAllLines(
+                Paths.get(ClassLoader.getSystemResource("04/someInvalidPassports.txt").toURI()));
+
+        final Collection<Passport> passports = serviceUnderTest.parseInput(passportData);
+
+        assertThat(passports.stream().filter(Passport::isValid).collect(Collectors.toList())).hasSize(0);
+    }
+
+    @Test
     void parseInput_whenGivenChallengeInput_shouldNotThrowAnyExceptions() throws URISyntaxException, IOException {
         final List<String> passportData = Files.readAllLines(
                 Paths.get(ClassLoader.getSystemResource("04/challengeInput.txt").toURI()));
